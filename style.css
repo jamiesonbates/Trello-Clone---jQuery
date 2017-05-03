@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css?family=Pacifico');
+@import url('https://fonts.googleapis.com/css?family=Slabo+27px');
+
+html, body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+header {
+  width: 100%;
+  background-color: #E89847;
+  display: flex;
+  justify-content: center;
+}
+
+header h1 {
+  margin: 0;
+  padding: 10px 0;
+  font-family: 'Pacifico';
+  font-size: 40px;
+  color: #E8EDE2;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+ul h2 {
+  align-self: center;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.item li {
+  font-size: 30px;
+}
+
+.item div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.item li, .item div {
+  margin: 0 5px;
+}
+
+.edit-btn, .del-btn, .add-btn {
+  margin: 0 1px;
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 3px;
+  padding: 3px 5px;
+  font-family: 'Slabo 27px';
+  font-size: 15px;
+}
+
+.add-btn {
+  font-size: 25px;
+  padding: 5px 5px;
+}
+
+.edit-btn:hover, .del-btn:hover, .add-btn:hover {
+  cursor: pointer;
+}
+
+.tools {
+  width: 100%;
+  align-self: center;
+}
+
+.tools form {
+  display: flex;
+  align-items: center;
+}
+
+.tools form input {
+  flex: 1;
+  padding: 5px 10px;
+  font-size: 25px;
+  border-radius: 3px;
+  border: 1px solid gray;
+}
+
+.tools form input, .tools form button {
+  margin: 0 3px;
+}
