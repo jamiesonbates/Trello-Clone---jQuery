@@ -166,7 +166,6 @@ ul h2 {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 .editing .edit-form textarea {
@@ -178,6 +177,11 @@ ul h2 {
 
 .editing .edit-form textarea:focus {
   outline: none;
+}
+
+.editing .edit-container {
+  flex: 1;
+  display: flex;
 }
 
 .save-btn {
@@ -192,14 +196,14 @@ ul h2 {
   background-color: #4C8F38;
 }
 
-.del-btn i {
+.del-item-btn i, .del-list-btn i {
   border: none;
   background-color: inherit;
   font-size: 25px;
   color: #919394;
 }
 
-.del-btn i:hover {
+.del-item-btn i:hover, .del-list-btn i:hover {
   color: #525354;
 }
 
@@ -276,14 +280,14 @@ ul h2 {
   color: white;
 }
 
-.exit-btn {
+.exit-add-btn, .exit-edit-btn {
   border: none;
   background-color: inherit;
   font-size: 25px;
   color: #919394;
 }
 
-.exit-btn:hover {
+.exit-add-btn:hover, .exit-edit-btn:hover {
   color: #7D7E7F;
   cursor: pointer;
 }

@@ -1,7 +1,12 @@
 (function() {
   'use strict';
 
-// Read
+/*
+--------------------------------------------------------------------------------
+DATA
+--------------------------------------------------------------------------------
+*/
+
 const lists = [
   {
     title: 'My List',
@@ -13,35 +18,72 @@ const lists = [
   }
 ];
 
+/*
+--------------------------------------------------------------------------------
+FUNCTIONS
+--------------------------------------------------------------------------------
+*/
+
 const generateItem = function(value) {
   const $itemDiv = $('<div>').addClass('item');
   const $li = $('<li>').text(value);
-  const $btnContainer = $('<div>');
-  const $editBtn = $('<button>').addClass('btn edit-btn');
-  const $icon = $('<i>').addClass('fa fa-pencil');
 
   $itemDiv.append($li);
-  $editBtn.append($icon);
-  $btnContainer.append($editBtn);
-  $itemDiv.append($btnContainer);
 
   return $itemDiv;
 }
 
+const createEditForm = function(value) {
+  const $container = $('<div>').addClass('edit-container');
+  const $editDiv = $('<div>').addClass('edit-form');
+  const $textarea = $('<textarea>')
+    .attr('autocomplete', 'off')
+    .attr('wrap', 'soft')
+    .attr('autofocus', null)
+    .text(value);
+  const $deleteButton = $('<button>').addClass('btn del-item-btn');
+  const $delI = $('<i>').addClass('fa fa-trash');
+  const $buttonsDiv = $('<div>').addClass('edit-form-btns');
+  const $saveBtn = $('<button>')
+    .attr('type', 'submit')
+    .addClass('btn save-btn')
+    .text('Save');
+  const $exitBtn = $('<button>').addClass('exit-edit-btn');
+  const $exitI = $('<i>').addClass('fa fa-times');
+
+  $deleteButton.append($delI);
+  $exitBtn.append($exitI);
+  $buttonsDiv.append($saveBtn);
+  $buttonsDiv.append($exitBtn);
+  $editDiv.append($textarea);
+  $editDiv.append($buttonsDiv);
+  $container.append($editDiv);
+  $container.append($deleteButton);
+
+  return $container;
+};
+
 const createAddForm = function() {
   const $toolsDiv = $('<div>').addClass('tools');
   const $form = $('<form>');
-  const $input = $('<input>')
-    .attr('type', 'text')
+  const $textarea = $('<textarea>')
+    .attr('wrap', 'soft')
     .attr('placeholder', 'Add item')
-    .attr('autocomplete', 'off');
+    .attr('autocomplete', 'off')
+    .attr('autofocus', null);
+  const $buttonDiv = $('<div>').addClass('add-form-btns');
   const $button = $('<button>')
     .attr('type', 'submit')
     .addClass('btn add-btn')
     .text('Add');
+  const $exit = $('<button>').addClass('btn exit-add-btn');
+  const $i = $('<i>').addClass('fa fa-times');
 
-  $form.append($input);
-  $form.append($button);
+  $exit.append($i);
+  $buttonDiv.append($button);
+  $buttonDiv.append($exit);
+  $form.append($textarea);
+  $form.append($buttonDiv);
   $toolsDiv.append($form);
 
   return $toolsDiv;
@@ -57,9 +99,13 @@ const createList = function(list) {
   const $listDiv = $('<div>').addClass('list');
   const $headerDiv = $('<div>').addClass('list-header');
   const $h2 = $('<h2>').text(list.title);
+  const $delBtn = $('<button>').addClass('btn del-list-btn');
+  const $delI = $('<i>').addClass('fa fa-trash');
   const $list = $('<ul>');
 
+  $delBtn.append($delI);
   $headerDiv.append($h2);
+  $headerDiv.append($delBtn);
   $listDiv.append($headerDiv);
 
   for (const item of list.tasks) {
@@ -74,21 +120,6 @@ const createList = function(list) {
   return $listDiv;
 }
 
-const generateForm = function(type, value) {
-  const $form = $('<form>').attr('id', 'form-action');
-  const $input = $('<input>').attr('type', 'text');
-  const $button = $('<button>').attr('type', 'submit').addClass('add-btn').text(`${type}`);
-
-  $input.attr('placeholder', `${type} item`);
-  $input.attr('id', 'item-action');
-  $input.attr('autocomplete', 'off');
-  $input.val(value);
-  $form.append($input);
-  $form.append($button);
-
-  return $form;
-}
-
 const populateLists = function(lists) {
   for (const list of lists) {
     const $list = createList(list);
@@ -99,60 +130,8 @@ const populateLists = function(lists) {
 
 populateLists(lists);
 
-// Update
-const startEdit = function($target) {
-  const val = $target.children('li').text();
-
-  $target.children('li').remove();
-  $target.prepend('<input>').attr('type', 'text');
-  $target.children('input').val(val);
-  $target.children('div').children('button.edit-btn').text('Update');
-  $target.addClass('editing');
-}
-
-$('ul').on('click', '.edit-btn', (e) => {
-  const $target = $(e.target).parents('.item');
-  // Click selected btn
-  if ($target.hasClass('editing')) {
-    const val = $target.children('input').val();
-
-    completeEdit($target, val);
-  }
-  else if ($('.editing').length > 0) {
-    const $editing = $('.editing');
-    const val = $editing.children('input').val();
-
-    completeEdit($editing, val);
-    startEdit($target);
-  }
-  else {
-    startEdit($target);
-  }
-});
-
-// Delete
 const deleteItem = function() {
   $(this).parents('.item').remove();
-}
-
-$('ul').on('click', '.del-btn', deleteItem);
-
-// Create
-$('#add-item').submit((e) => {
-  const $list = $('ul');
-  const inputVal = $('#item-to-add')[0].value;
-  const $item = generateItem(inputVal);
-
-  $list.append($item);
-  $('#item-to-add')[0].value = '';
-  e.preventDefault();
-});
-
-const completeEdit = function($target, val) {
-  $target.removeClass('editing');
-  $target.children('div').children('button.edit-btn').text('Edit');
-  $target.children('input').remove();
-  $target.prepend($('<li>').text(val));
 }
 
 const inHover = function() {
@@ -174,43 +153,94 @@ const outHover = function() {
   $('.edit-btn').remove();
 }
 
-$('.item').hover(inHover, outHover);
+/*
+--------------------------------------------------------------------------------
+LISTENERS
+--------------------------------------------------------------------------------
+*/
 
-$('ul').on('click', '.edit-btn', (e) => {
-  let $button = $(e.target);
-
-  if ($button.hasClass('fa')) {
-    $button = $button.parents('button');
-  }
-
-  $button.parents('.item').addClass('editing');
-  $button.siblings('.hide').removeClass('hide');
-  $button.siblings('li').addClass('hide');
-  $('.edit-btn').remove();
-});
-
-$('button.add-item').on('click', (e) => {
-  $(e.target).addClass('hide');
-  $(e.target).siblings('form').removeClass('hide');
-});
-
-$('button#exit-edit-form').on('click', (e) => {
+// Create new list
+$('.new-list').on('click', '.list-btn', (e) => {
   e.preventDefault();
 
+  const title = $(e.target).siblings('input').val();
+  const list = { title, tasks: [] };
+  const $newList = createList(list);
+
+  $(e.target).siblings('input').val('');
+  $('.all-lists').append($newList);
+});
+
+// Delete list
+$('.all-lists').on('click', '.del-list-btn', (e) => {
+  $(e.target).parents('.list').remove();
+});
+
+// Delete item on list
+$('.all-lists').on('click', '.del-item-btn', deleteItem);
+
+// Highlight item and show icon/button on hover
+$('.all-lists').on('mouseenter', '.item', inHover);
+$('.all-lists').on('mouseleave', '.item', outHover);
+
+// Edit item on list
+$('.all-lists').on('click', '.edit-btn', (e) => {
   const $item = $(e.target).parents('.item');
+  const val = $item.children('li').text();
+  const $editForm = createEditForm(val);
 
-  $item.removeClass('editing');
-  $item.children('li').removeClass('hide');
-  $item.children('form').addClass('hide');
+  $item.children('button').remove();
+  $item.append($editForm);
+  $item.addClass('editing');
+  $item.children('li').remove();
 });
 
-$('button#exit-add-form').on('click', (e) => {
+$('.all-lists').on('click', '.save-btn', (e) => {
+  const $item = $(e.target).parents('.item');
+  const val = $(e.target).parents('.edit-form').children('textarea').val();
+  const $li = $('<li>').text(val);
+
+  $item.children().remove();
+  $item.removeClass('editing');
+  $item.append($li);
+});
+
+$('.all-lists').on('click', '.exit-edit-btn', (e) => {
+  const $item = $(e.target).parents('.item');
+  const text = $(e.target).parents('.edit-form').children('textarea').text();
+  const $li = $('<li>').text(text);
+
+  $item.children().remove();
+  $item.removeClass('editing');
+  $item.append($li);
+});
+
+
+// Add item to list
+$('.all-lists').on('click', 'button.add-item', (e) => {
+  const $list = $(e.target).parents('.list');
+
+  $(e.target).remove();
+  $list.append(createAddForm());
+});
+
+$('.all-lists').on('click', '.add-btn', (e) => {
   e.preventDefault();
 
-  const $tools = $(e.target).parents('.tools');
+  const val = $(e.target).parents('.add-form-btns').siblings('textarea').val();
+  const $item = generateItem(val);
 
-  $tools.children('.add-item').removeClass('hide');
-  $tools.children('form').addClass('hide');
+  $(e.target).parents('.list').children('ul').append($item);
+
+  $(e.target).parents('.list').append(createAddPrompt());
+  $(e.target).parents('.tools').remove();
+});
+
+$('.all-lists').on('click', '.exit-add-btn', (e) => {
+  e.preventDefault();
+
+  $(e.target).parents('.list').append(createAddPrompt());
+  $(e.target).parents('.tools').remove();
 });
 
 })();
