@@ -4,28 +4,78 @@
 html, body {
   margin: 0;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 header {
   width: 100%;
-  background-color: #E89847;
+  background-color: #B57737;
   display: flex;
   justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+header form {
+  position: absolute;
+  right: 20px;
 }
 
 header h1 {
   margin: 0;
-  padding: 10px 0;
+  padding: 5px 0;
   font-family: 'Pacifico';
-  font-size: 40px;
+  font-size: 35px;
   color: #E8EDE2;
 }
 
 main {
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
+  padding: 25px;
+  background-color: #E89847;
+  flex: 1;
+}
+
+.new-list {
+  margin: 10px;
+  margin-bottom: 20px;
+}
+
+.new-list form input {
+  font-size: 20px;
+  padding: 10px;
+  border-radius: 3px;
+  border: none;
+}
+
+.new-list form input:focus {
+  outline: none;
+}
+
+.all-lists {
+  display: flex;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.list {
+  margin: 10px;
+  background-color: #E2E4E6;
+  border-radius: 3px;
+  width: 300px;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.list h2 {
+  margin: 0;
 }
 
 ul {
@@ -33,6 +83,7 @@ ul {
   display: flex;
   flex-direction: column;
   padding: 0;
+  margin: 0;
 }
 
 ul h2 {
@@ -42,59 +93,201 @@ ul h2 {
 .item {
   display: flex;
   justify-content: space-between;
+  padding: 5px;
+  padding-bottom: 8px;
+  max-width: 300px;
+  margin: 5px 10px;
+  border-radius: 3px;
+  background-color: white;
+  border-bottom: 1px solid #D1D1D1;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.item:hover {
+  background-color: #C6C8C9;
 }
 
 .item li {
-  font-size: 30px;
+  font-size: 20px;
 }
 
-.item div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.item li, .item div {
-  margin: 0 5px;
-}
-
-.edit-btn, .del-btn, .add-btn {
+.btn {
   margin: 0 1px;
-  background-color: white;
-  border: 1px solid gray;
+  background-color: inherit;
+  border: none;
   border-radius: 3px;
   padding: 3px 5px;
   font-family: 'Slabo 27px';
   font-size: 15px;
+  box-sizing: border-box;
 }
 
-.add-btn {
-  font-size: 25px;
-  padding: 5px 5px;
-}
-
-.edit-btn:hover, .del-btn:hover, .add-btn:hover {
+.btn:hover {
   cursor: pointer;
 }
 
+.exit-btn {
+  border: none;
+  background-color: inherit;
+  font-size: 25px;
+  color: #919394;
+}
+
+.exit-btn:hover {
+  color: #7D7E7F;
+  cursor: pointer;
+}
+
+.edit-btn {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+}
+
+
+.edit-btn:hover {
+  background-color: #B4B6B8;
+}
+
+.edit-btn i {
+  color: #5A5B5C;
+}
+.editing {
+  z-index: 1;
+  min-height: 150px;
+}
+
+.editing:hover {
+  background-color: white;
+}
+
+.editing .edit-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.editing .edit-form textarea {
+  flex: 1;
+  font-size: 20px;
+  border: none;
+  resize: none;
+}
+
+.editing .edit-form textarea:focus {
+  outline: none;
+}
+
+.save-btn {
+  font-size: 25px;
+  padding: 5px 15px;
+  box-sizing: border-box;
+  background-color: #56a23f;
+  color: white;
+}
+
+.save-btn:hover {
+  background-color: #4C8F38;
+}
+
+.del-btn i {
+  border: none;
+  background-color: inherit;
+  font-size: 25px;
+  color: #919394;
+}
+
+.del-btn i:hover {
+  color: #525354;
+}
+
+
 .tools {
+  padding-top: 10px 0;
+}
+
+.add-item {
+  border: none;
+  background-color: #E2E4E6;
   width: 100%;
-  align-self: center;
+  padding: 10px;
+  font-size: 20px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.add-item:hover {
+  background-color: #AAACAD;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.edit-form-btns {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 5px;
 }
 
 .tools form {
+  margin: 5px 10px;
+}
+
+.tools form textarea {
+  width: 100%;
+  font-size: 20px;
+  border: none;
+  resize: none;
+  border-radius: 3px;
+  padding: 5px;
+  box-sizing: border-box;
+  min-height: 75px;
+}
+
+.tools form textarea:focus {
+  outline: none;
+}
+
+.add-form-btns {
   display: flex;
   align-items: center;
+  padding: 5px;
 }
 
-.tools form input {
-  flex: 1;
-  padding: 5px 10px;
+.add-btn, .login-btn, .signup-btn, .list-btn {
   font-size: 25px;
-  border-radius: 3px;
-  border: 1px solid gray;
+  padding: 5px 15px;
+  box-sizing: border-box;
+  background-color: #56a23f;
+  color: white;
 }
 
-.tools form input, .tools form button {
-  margin: 0 3px;
+.add-btn:hover, .login-btn:hover, .signup-btn:hover, .list-btn:hover {
+  background-color: #4C8F38;
+}
+
+.signout-btn {
+  font-size: 25px;
+  padding: 5px 15px;
+  box-sizing: border-box;
+  background-color: #DB9043;
+  color: white;
+}
+
+.exit-btn {
+  border: none;
+  background-color: inherit;
+  font-size: 25px;
+  color: #919394;
+}
+
+.exit-btn:hover {
+  color: #7D7E7F;
+  cursor: pointer;
+}
+
+.hide {
+  display: none;
 }
